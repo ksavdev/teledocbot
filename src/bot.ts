@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-import { Bot, GrammyError, HttpError, session } from "grammy";
+import { Bot, session } from "grammy";
 
 import { conversations, createConversation } from "@grammyjs/conversations";
 
