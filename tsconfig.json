@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",          // Современный JavaScript
+    "module": "ESNext",          // Генерация кода в формате ES-модулей
+    "outDir": "./dist",          // Папка для скомпилированных файлов
+    "rootDir": "./src",          // Папка с исходниками
+    "strict": true,              // Включение строгого режима
+    "moduleResolution": "node", // Разрешение модулей в стиле Node.js
+    "esModuleInterop": true      // Интероп с CommonJS модулями
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
