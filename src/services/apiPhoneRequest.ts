@@ -7,11 +7,12 @@ interface PhoneRequestResult {
 
 async function sendPhoneRequest(url: string, userPhone: string): Promise<PhoneRequestResult> {
     const data = {
-        userPhone: userPhone
+        phone: userPhone
     };
 
     try {
-        const response = await axios.post(url, data, { timeout: 5000 });
+        
+        const response = await axios.post(url, data, { timeout: 15000 });
         console.log('Server response:', response.data);
         return { success: true, message: 'Вы успешно авторизовались' };
 
@@ -21,6 +22,7 @@ async function sendPhoneRequest(url: string, userPhone: string): Promise<PhoneRe
             switch (error.response?.status) {
                 case 400:
                     message = 'Неверный формат номера телефона';
+                    console.log(error.response?.status)
                     break;
                 case 404:
                     message = 'Пользователь не найден';

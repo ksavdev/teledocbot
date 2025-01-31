@@ -1,10 +1,12 @@
 import { confirmInlineKeyboard } from "../keyboards/inlineKeyboards/confirmKeyboard.js";
 import { shareContactKeyboard } from "../keyboards/shareContact.js";
+import { sendCodeRequest } from "../services/apiSendCodeRequest.js";
 import {
   type BotContext,
   type BotConversation,
 } from "../types/botContextTypes.js";
 import { handlePhoneRequest } from "../utils/handlePhoneRequest.js";
+import { handleSendCodeRequest } from "../utils/handleSendCodeRequest.js";
 
 export async function authentication(
   conversation: BotConversation,
@@ -26,7 +28,7 @@ export async function authentication(
 
   const userPhoneNumber = contactMessage.message.contact.phone_number;
 
-  await ctx.reply(`Это ваш номер? ${userPhoneNumber} `, {
+  await ctx.reply(`Это ваш номер? +${userPhoneNumber} `, {
     reply_markup: confirmInlineKeyboard,
   });
 
@@ -45,8 +47,19 @@ export async function authentication(
     );
 
     const textMessage = await conversation.waitFor("message:text");
-    const manualPhoneNumber = textMessage.message?.text;
+    
+    const manualPhoneNumber = String(textMessage.message?.text).trim();
 
+    // Проверка, что номер телефона не пустой и является строкой
+    if (!manualPhoneNumber || typeof manualPhoneNumber !== 'string') {
+        await ctx.reply('Неверный формат номера телефона. Пожалуйста, отправьте номер телефона в виде строки.');
+        return;
+    }
+
+    console.log('Отправляемый номер телефона:', manualPhoneNumber);
+    console.log(typeof(manualPhoneNumber));
+
+    
     await handlePhoneRequest(ctx, manualPhoneNumber);
   }
 }
