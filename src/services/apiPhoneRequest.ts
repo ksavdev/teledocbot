@@ -7,7 +7,7 @@ interface PhoneRequestResult {
 
 async function sendPhoneRequest(url: string, userPhone: string): Promise<PhoneRequestResult> {
     const data = {
-        phone: userPhone
+        userPhone: userPhone
     };
 
     try {
@@ -21,7 +21,7 @@ async function sendPhoneRequest(url: string, userPhone: string): Promise<PhoneRe
         if (axios.isAxiosError(error)) {
             switch (error.response?.status) {
                 case 400:
-                    message = 'Неверный формат номера телефона';
+                    message = 'Вы не являетесь доктором';
                     console.log(error.response?.status)
                     break;
                 case 404:
