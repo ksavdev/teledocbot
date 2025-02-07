@@ -65,7 +65,7 @@ export async function authentication(conversation, ctx) {
         const finalRoleCheck = await conversation.external(() => checkRoleByPhone(manualPhoneNumber));
         if (typeof finalRoleCheck === "string") {
             console.warn(`Ошибка проверки роли: ${finalRoleCheck}`);
-            await ctx.reply("Ты лох"); // Возможно, стоит заменить на более корректное сообщение
+            await ctx.reply("Доступ закрыт. Вы не доктор"); // Возможно, стоит заменить на более корректное сообщение
             return;
         }
         console.info("Роль пользователя подтверждена. Авторизация успешна.");
