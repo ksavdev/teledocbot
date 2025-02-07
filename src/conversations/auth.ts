@@ -42,45 +42,7 @@ export async function authentication(
       return;
     }
 
-    await ctx.reply(`Роль подтверждена: ${JSON.stringify(roleResult)}`);
-
-
-    
-    const sendCodeResult = await conversation.external(() => sendCode(userPhoneNumber));
-
-    if (typeof sendCodeResult === "string") {
-      await ctx.reply(sendCodeResult);
-      return;
-    }
-
-    await ctx.reply("Введите код подтверждения, отправленный в WhatsApp");
-
-
-    
-    const textMessageWithCode = await conversation.waitFor("message:text");
-    const code = Number(textMessageWithCode.message?.text);
-
-
-    
-    const confirmCodeResult = await conversation.external(() => confirmCode(userPhoneNumber, code));
-
-    if (typeof confirmCodeResult === "string") {
-      await ctx.reply(confirmCodeResult);
-      return;
-    }
-
-    await ctx.reply(`Подтверждение успешно: ${JSON.stringify(confirmCodeResult)}`);
-
-
-    
-    const finalRoleCheck = await conversation.external(() => checkRoleByPhone(userPhoneNumber));
-
-    if (typeof finalRoleCheck === "string") {
-      await ctx.reply(`Ошибка при проверке роли: ${finalRoleCheck}`);
-      return;
-    }
-
-    await ctx.reply(`Окончательная роль пользователя: ${JSON.stringify(finalRoleCheck)}`);
+    await ctx.reply(`Вы авторизовались`);
 
     return;
   }
@@ -92,21 +54,21 @@ export async function authentication(
   const textMessageWithNumber = await conversation.waitFor("message:text");
   const manualPhoneNumber = textMessageWithNumber.message?.text.trim();
 
-  
+  await ctx.reply("Отправляем запрос на сервер...")
   const sendCodeResult = await conversation.external(() => sendCode(manualPhoneNumber));
 
   if (typeof sendCodeResult === "string") {
     await ctx.reply(sendCodeResult);
     return;
   }
-
+  
   await ctx.reply("Введите код подтверждения, отправленный в WhatsApp");
 
   
   const textMessageWithCode = await conversation.waitFor("message:text");
   const code = Number(textMessageWithCode.message?.text);
 
-  
+  await ctx.reply("Проверяем код...")
   const confirmCodeResult = await conversation.external(() => confirmCode(manualPhoneNumber, code));
 
   if (typeof confirmCodeResult === "string") {
@@ -121,9 +83,9 @@ export async function authentication(
   const finalRoleCheck = await conversation.external(() => checkRoleByPhone(manualPhoneNumber));
 
   if (typeof finalRoleCheck === "string") {
-    await ctx.reply("ты лох");
+    await ctx.reply("Ты лох");
     return;
   }
 
-  await ctx.reply(`Роль подтверждена: ${JSON.stringify(finalRoleCheck)}`);
+  await ctx.reply(`Вы авторизовались`);
 }

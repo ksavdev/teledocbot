@@ -19,7 +19,6 @@ export async function confirmCode(userPhone: string, code: number): Promise<any>
             headers: { 'Content-Type': 'application/json' }
         });
         // Успешный ответ
-        console.log('Ответ от сервера:', response.data);
         return response.data; 
     } catch (error: unknown) {
         
