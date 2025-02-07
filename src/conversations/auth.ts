@@ -45,7 +45,7 @@ export async function authentication(
     await ctx.reply(`Роль подтверждена: ${JSON.stringify(roleResult)}`);
 
 
-
+    
     const sendCodeResult = await conversation.external(() => sendCode(userPhoneNumber));
 
     if (typeof sendCodeResult === "string") {
@@ -56,12 +56,12 @@ export async function authentication(
     await ctx.reply("Введите код подтверждения, отправленный в WhatsApp");
 
 
-
+    
     const textMessageWithCode = await conversation.waitFor("message:text");
     const code = Number(textMessageWithCode.message?.text);
 
 
-
+    
     const confirmCodeResult = await conversation.external(() => confirmCode(userPhoneNumber, code));
 
     if (typeof confirmCodeResult === "string") {
@@ -72,7 +72,7 @@ export async function authentication(
     await ctx.reply(`Подтверждение успешно: ${JSON.stringify(confirmCodeResult)}`);
 
 
-
+    
     const finalRoleCheck = await conversation.external(() => checkRoleByPhone(userPhoneNumber));
 
     if (typeof finalRoleCheck === "string") {
@@ -88,11 +88,11 @@ export async function authentication(
 
   await ctx.reply("Пожалуйста, отправьте ваш номер телефона в сообщении");
 
-
+  
   const textMessageWithNumber = await conversation.waitFor("message:text");
   const manualPhoneNumber = textMessageWithNumber.message?.text.trim();
 
-
+  
   const sendCodeResult = await conversation.external(() => sendCode(manualPhoneNumber));
 
   if (typeof sendCodeResult === "string") {
@@ -102,11 +102,11 @@ export async function authentication(
 
   await ctx.reply("Введите код подтверждения, отправленный в WhatsApp");
 
-
+  
   const textMessageWithCode = await conversation.waitFor("message:text");
   const code = Number(textMessageWithCode.message?.text);
 
-
+  
   const confirmCodeResult = await conversation.external(() => confirmCode(manualPhoneNumber, code));
 
   if (typeof confirmCodeResult === "string") {
@@ -114,7 +114,7 @@ export async function authentication(
     return;
   }
 
-
+  
 
 
   
